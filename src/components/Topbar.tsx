@@ -5,39 +5,61 @@ import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import Menu from "@mui/material/Menu";
+import Badge from "@mui/material/Badge";
+import OutlinedInput from "@mui/material/OutlinedInput";
 import Avatar from "@mui/material/Avatar";
-import Button from "@mui/material/Button";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import ListItemText from "@mui/material/ListItemText";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
+import Container from "@mui/material/Container";
 import MenuIcon from "@mui/icons-material/Menu";
-import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 
-import { Link, NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { logout } from "redux/reducers/auth.reducer";
 import { signOut } from "firebase/auth";
 import { firebaseAuth } from "services/firebase";
 import { useAppDispatch, useAppSelector } from "redux/hooks";
+import logoImg from "assets/logo.svg";
+
+// icons
+import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
+import Inventory2OutlinedIcon from "@mui/icons-material/Inventory2Outlined";
+import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
+import LocalOfferOutlinedIcon from "@mui/icons-material/LocalOfferOutlined";
+import PaymentOutlinedIcon from "@mui/icons-material/PaymentOutlined";
+import PowerSettingsNewOutlinedIcon from "@mui/icons-material/PowerSettingsNewOutlined";
+import NotificationsNoneOutlinedIcon from "@mui/icons-material/NotificationsNoneOutlined";
 
 const pages = ["Home", "Projects", "Images", "Assets"];
-const links = [
-  {
-    name: "Home",
-    path: "/",
-  },
-  {
-    name: "Projects",
-    path: "/projects",
-  },
-  {
-    name: "Images",
-    path: "/images",
-  },
-  {
-    name: "Assets",
-    path: "/assets",
-  },
+// const links = [
+//   {
+//     name: "Home",
+//     path: "/",
+//   },
+//   {
+//     name: "Projects",
+//     path: "/projects",
+//   },
+//   {
+//     name: "Images",
+//     path: "/images",
+//   },
+//   {
+//     name: "Assets",
+//     path: "/assets",
+//   },
+// ];
+const settings = [
+  { label: "My Profile", icon: <AccountCircleOutlinedIcon /> },
+  { label: "Orders", icon: <Inventory2OutlinedIcon /> },
+  { label: "Wishlist", icon: <FavoriteBorderOutlinedIcon /> },
+  { label: "Coupons", icon: <LocalOfferOutlinedIcon /> },
+  { label: "Gift Cards", icon: <PaymentOutlinedIcon /> },
+  { label: "Notifications", icon: <NotificationsNoneOutlinedIcon /> },
+  { label: "Logout", icon: <PowerSettingsNewOutlinedIcon /> },
 ];
-const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
 function Topbar() {
   const {
@@ -87,6 +109,7 @@ function Topbar() {
         px: 4,
       }}
     >
+      {/* small screen drawer */}
       <Toolbar disableGutters>
         <Box sx={{ display: { xs: "flex", md: "none" } }}>
           <IconButton
@@ -130,86 +153,109 @@ function Topbar() {
             ))}
           </Menu>
         </Box>
-        <Box
-          sx={{
-            flexGrow: { xs: 1, md: 0 },
-          }}
-        >
-          {/* <Link to="/">
-            <img
-              src={logoImg}
-              alt="brand_logo"
-              style={{ width: 100, height: 20 }}
-            />
-          </Link> */}
-        </Box>
-        <Box sx={{ display: { xs: "none", md: "flex" }, ml: 2, flexGrow: 1 }}>
-          {links.map((link) => (
-            <NavLink key={link.path} to={link.path}>
-              {({ isActive }) => (
-                <Button
-                  disableRipple
-                  key={link.name}
-                  onClick={handleCloseNavMenu}
-                  sx={{
-                    my: 2,
-                    color: isActive ? "text.primary" : "text.disabled",
-                    display: "block",
-                    fontWeight: 600,
-                    fontSize: 16,
-                    background: "transparent",
-                    "&:hover": {
-                      background: "transparent",
-                      color: "text.primary",
-                    },
-                  }}
-                >
-                  {link.name}
-                </Button>
-              )}
-            </NavLink>
-          ))}
-        </Box>
 
-        <Box sx={{ flexGrow: 0, display: "flex", alignItems: "center" }}>
-          <IconButton sx={{ mx: 1 }}>
-            <MoreHorizIcon style={{ width: 25 }} />
-          </IconButton>
-          <Tooltip title="Open settings">
-            <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-              <Avatar
-                style={{ width: 35, height: 35 }}
-                alt={`${user?.displayName}`}
-                src={`${user?.photoURL}`}
-              />
-            </IconButton>
-          </Tooltip>
-          <Menu
-            sx={{ mt: "45px" }}
-            id="menu-appbar"
-            anchorEl={anchorElUser}
-            anchorOrigin={{
-              vertical: "top",
-              horizontal: "right",
+        <Container disableGutters sx={{ display: "flex" }}>
+          <Box
+            sx={{
+              flexGrow: { xs: 1, md: 0 },
+              alignItems: "center",
+              display: "flex",
             }}
-            keepMounted
-            transformOrigin={{
-              vertical: "top",
-              horizontal: "right",
-            }}
-            open={Boolean(anchorElUser)}
-            onClose={() => handleCloseUserMenu()}
           >
-            {settings.map((setting) => (
-              <MenuItem
-                key={setting}
-                onClick={() => handleCloseUserMenu(setting)}
-              >
-                <Typography textAlign="center">{setting}</Typography>
-              </MenuItem>
+            <Link to="/">
+              <img
+                src={logoImg}
+                alt="brand_logo"
+                style={{ width: "auto", height: 50 }}
+              />
+            </Link>
+          </Box>
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              marginLeft: 8,
+              flexGrow: 1,
+            }}
+          >
+            <OutlinedInput
+              placeholder="Search for Products, Brands and More"
+              size="small"
+              sx={{ minWidth: 350, ml: 3 }}
+            />
+          </div>
+          {/* <Box sx={{ display: { xs: "none", md: "flex" }, ml: 2, flexGrow: 1 }}>
+            {links.map((link) => (
+              <NavLink key={link.path} to={link.path}>
+                {({ isActive }) => (
+                  <Button
+                    disableRipple
+                    key={link.name}
+                    onClick={handleCloseNavMenu}
+                    sx={{
+                      my: 2,
+                      color: isActive ? "text.primary" : "text.disabled",
+                      display: "block",
+                      fontWeight: 600,
+                      fontSize: 16,
+                      background: "transparent",
+                      "&:hover": {
+                        background: "transparent",
+                        color: "text.primary",
+                      },
+                    }}
+                  >
+                    {link.name}
+                  </Button>
+                )}
+              </NavLink>
             ))}
-          </Menu>
-        </Box>
+          </Box> */}
+
+          <Box sx={{ flexGrow: 0, display: "flex", alignItems: "center" }}>
+            <IconButton sx={{ mx: 2 }}>
+              <Badge badgeContent={4} color="error">
+                <ShoppingCartIcon color="action" />
+              </Badge>
+            </IconButton>
+
+            <Tooltip title="Open settings">
+              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                <Avatar
+                  style={{ width: 35, height: 35 }}
+                  alt={`${user?.displayName}`}
+                  src={`${user?.photoURL}`}
+                />
+              </IconButton>
+            </Tooltip>
+            <Menu
+              sx={{ mt: "45px" }}
+              id="menu-appbar"
+              anchorEl={anchorElUser}
+              anchorOrigin={{
+                vertical: "top",
+                horizontal: "right",
+              }}
+              keepMounted
+              transformOrigin={{
+                vertical: "top",
+                horizontal: "right",
+              }}
+              open={Boolean(anchorElUser)}
+              onClose={() => handleCloseUserMenu()}
+            >
+              {settings.map((setting) => (
+                <MenuItem
+                  key={setting.label}
+                  onClick={() => handleCloseUserMenu(setting.label)}
+                >
+                  <ListItemIcon>{setting.icon}</ListItemIcon>
+                  <ListItemText>{setting.label}</ListItemText>
+                </MenuItem>
+              ))}
+            </Menu>
+          </Box>
+        </Container>
       </Toolbar>
     </AppBar>
   );

@@ -11,6 +11,8 @@ import get from "lodash/get";
 import { firebaseConfig } from "services/firebase";
 import GoogleIcon from "@mui/icons-material/Google";
 import Page from "components/Page";
+//image 
+import bgImg from 'assets/background.webp'
 
 function LoginForm() {
   const theme = useTheme();
@@ -96,8 +98,6 @@ function LoginForm() {
       });
   };
 
-  console.log();
-
   return (
     <Page title="Login">
       <Box
@@ -108,19 +108,26 @@ function LoginForm() {
           flexDirection: "column",
           justifyContent: "center",
           alignItems: "center",
+          backgroundImage: `url(${bgImg})`,
+          backgroundSize: "cover",
+          backgroundRepeat: "no-repeat",
+          backgroundPosition: "center",
         }}
       >
         <Box
           sx={{
             maxWidth: 400,
-            bgcolor: "white",
+            bgcolor: "rgba(255, 255, 255, 0.6)",
+            backdropFilter: "blur(10px)",
             p: 3,
+            py: 6,
             borderRadius: "10px",
             boxShadow: theme.shadows[5],
+            textAlign: "center",
           }}
         >
-          <Typography variant="h3">Brand name</Typography>
-          <Typography variant="h3" sx={{ fontWeight: 400 }}>
+          <Typography variant="h4">E-commerce App</Typography>
+          <Typography variant="h4" sx={{ fontWeight: 400 }}>
             Log in or Sign up
           </Typography>
           <Button
@@ -128,7 +135,14 @@ function LoginForm() {
             startIcon={<GoogleIcon />}
             onClick={handleGoogleSignIn}
             variant="contained"
-            sx={{ bgcolor: "#DB4437", color: "#fff", marginTop: "20px" }}
+            sx={{
+              bgcolor: "#DB4437",
+              color: "#fff",
+              marginTop: "20px",
+              "&:hover": {
+                backgroundColor: "#DB4437",
+              },
+            }}
             fullWidth
           >
             Continue with Google
@@ -181,7 +195,7 @@ function LoginForm() {
               Please check your email for the login link.{" "}
             </Typography>
           )}
-          <Typography variant="subtitle1" sx={{ mt: 1 }}>
+          {/* <Typography variant="subtitle1" sx={{ mt: 1 }}>
             By continuing, you acknowledge that you agree to{" "}
             <a href={"/terms-of-service"} target="_blank" rel="noreferrer">
               Terms of Service
@@ -191,7 +205,7 @@ function LoginForm() {
               Privacy Policy
             </a>
             .
-          </Typography>
+          </Typography> */}
         </Box>
       </Box>
     </Page>

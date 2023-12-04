@@ -2,11 +2,11 @@ import { onAuthStateChanged } from "firebase/auth";
 import React from "react";
 import { useDispatch } from "react-redux";
 import { firebaseAuth } from "services/firebase";
-// import PublicRouter from "./PublicRouter";
+import PublicRouter from "./PublicRouter";
 import PrivateRouter from "./PrivateRouter";
 import { useAppSelector } from "redux/hooks";
 import { setUser, stopLoading } from "redux/reducers/auth.reducer";
-// import Loader from "components/Loader";
+import Loader from "components/Loader";
 
 export default function Routes() {
   const dispatch = useDispatch();
@@ -40,10 +40,10 @@ export default function Routes() {
 
   return (
     <div>
-      <PrivateRouter />
-      {/* {auth.loading && <Loader loading />}
+      {/* <PrivateRouter /> */}
+      {auth.loading && <Loader loading />}
       {auth.user && !auth.loading && <PrivateRouter />}
-      {!auth.user && !auth.loading && <PublicRouter />} */}
+      {!auth.user && !auth.loading && <PublicRouter />}
     </div>
   );
 }
